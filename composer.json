@@ -1,0 +1,30 @@
+{
+  "name": "sbx-zf2/common",
+  "description": "Common library components",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "sandbox",
+    "zf2"
+  ],
+  "homepage": "https://github.com/pMatvienko/zf2-common",
+  "authors": [
+    {
+      "name": "Pavel Matviienko",
+      "email": "shturman.p@gmail.com",
+      "homepage": "http://pavels.in.ua"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "zendframework/zendframework": "2.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "AccessControl": "./SbxCommon/src/"
+    },
+    "classmap": [
+      "./SbxCommon/Module.php"
+    ]
+  }
+}
