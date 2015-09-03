@@ -2,7 +2,7 @@
   "name": "sbx-zf2/common",
   "description": "Common library components",
   "type": "library",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "keywords": [
     "sandbox",
     "zf2"
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-0": {
-      "AccessControl": "./SbxCommon/src/"
+      "SbxCommon": "./SbxCommon/src/"
     },
     "classmap": [
       "./SbxCommon/Module.php"
