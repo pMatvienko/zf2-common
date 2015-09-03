@@ -52,7 +52,7 @@ class FormRow extends ZendFormRow
 
 
         $elementString = $elementHelper->render($element);
-        $controlElementWrapperClass = 'col-xs-6 col-md-7 col-lg-8';
+        $controlElementWrapperClass = 'col-xs-7 col-md-8 col-lg-9';
 
         if($element instanceof \Zend\Form\Element\DateSelect) {
             $controlElementWrapperClass .= ' form-inline';
@@ -62,20 +62,21 @@ class FormRow extends ZendFormRow
 
             if ($type === 'multi_checkbox' || $type === 'radio' || $element instanceof \Zend\Form\Element\MonthSelect) {
 
-                $element->setLabelAttributes(['class' => 'col-lg-4 col-xs-6 col-md-5 control-label']);
-                $markup = $labelHelper($element) . '<div class="' . $controlElementWrapperClass . '">' . $elementString . '</div>';
+                $element->setLabelAttributes(['class' => 'col-lg-3 col-xs-5 col-md-4 control-label']);
+                $markup = $labelHelper($element) . '<div class="' . $controlElementWrapperClass . '">
+                    <div class="btn-group" data-toggle="buttons">' . $elementString . '</div></div>';
 
             } elseif($type == 'button' || $type == 'submit') {
-                $markup = '<div class="' . $controlElementWrapperClass . ' col-md-offset-5 col-lg-offset-4">' . $elementString . '</div>';
+                $markup = '<div class="' . $controlElementWrapperClass . ' col-md-offset-4 col-lg-offset-3">' . $elementString . '</div>';
             } else {
                 switch ($this->labelPosition) {
                     case self::LABEL_APPEND:
-                        $element->setLabelAttributes(['class' => 'col-lg-4 col-xs-6 col-md-5 control-label']);
+                        $element->setLabelAttributes(['class' => 'col-lg-3 col-xs-5 col-md-4 control-label']);
                         $markup = '<div class="' . $controlElementWrapperClass . '">' . $elementString . '</div>' . $labelHelper($element);
                         break;
                     case self::LABEL_PREPEND:
                     default:
-                        $element->setLabelAttributes(['class' => 'col-lg-4 col-xs-6 col-md-5 control-label']);
+                        $element->setLabelAttributes(['class' => 'col-lg-3 col-xs-5 col-md-4 control-label']);
                         $markup = $labelHelper($element) . '<div class="' . $controlElementWrapperClass . '">' . $elementString . '</div>';
                         break;
                 }
@@ -86,7 +87,7 @@ class FormRow extends ZendFormRow
                 $markup .= $elementErrors;
                 $rowClass .= ' has-error';
             }
-            $markup = '<div class="' . $rowClass . '">' . $markup . '</div>';
+            $markup = '<div class="row"><div class="' . $rowClass . '">' . $markup . '</div></div>';
         } else {
             if ($this->renderErrors) {
                 $markup = $elementString . $elementErrors;
@@ -94,7 +95,6 @@ class FormRow extends ZendFormRow
                 $markup = $elementString;
             }
         }
-
         return $markup;
     }
 

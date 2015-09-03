@@ -29,5 +29,14 @@ class Module implements Feature\AutoloaderProviderInterface, Feature\ConfigProvi
 
         $pm = $serviceManager->get('ViewHelperManager')->get('Navigation')->getPluginManager();
         $pm->setInvokableClass('menu', 'SbxCommon\View\Helper\Navigation\Menu');
+
+        $em = $serviceManager->get('Doctrine\ORM\EntityManager');
+        $em->getEventManager()
+            ->addEventListener(
+                array(
+                    \Doctrine\ORM\Events::postLoad
+                ),
+                new Doctrine\ServiceManagerEntityInjector($serviceManager)
+            );
     }
 }

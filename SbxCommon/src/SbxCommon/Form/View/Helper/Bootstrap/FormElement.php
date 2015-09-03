@@ -18,6 +18,15 @@ class FormElement extends ZendFormElement
 
     public function render(ElementInterface $element)
     {
+
+        if($element instanceof \SbxCommon\Form\Element\RichEditor) {
+            $editorConfig = $this->getRIchEditorConfigByPreset($element->getEditorVersion());
+            if(empty($editorConfig) || empty($editorConfig['type'])){
+                throw new \RuntimeException('RichEditor by name "' . $element->getName() . '", must have a configured editor preset (editorVersion)');
+            }
+            return $this->renderHelper($editorConfig['type'] . 'FormRichEditor', $element);
+        }
+
         if (!$element->hasAttribute('id')) {
             $element->setAttribute('id', str_replace(['[', ']'], ['-', ''], $element->getName()));
         }
@@ -33,19 +42,43 @@ class FormElement extends ZendFormElement
         return parent::render($element);
     }
 
+    private function getRIchEditorConfigByPreset($preset)
+    {
+        $config = $this->getServiceLocator()->get('config');
+        return !empty($config['richeditor']['staticPage']) ? $config['richeditor']['staticPage'] : null;
+    }
+
+    private function getServiceLocator()
+    {
+        return $this->getView()->getHelperPluginManager()->getServiceLocator();
+    }
+
     /**
-     * Render element by instance map
+     * Render element by type map
      *
      * @param ElementInterface $element
      * @return string|null
      */
-    protected function renderInstance(ElementInterface $element)
+    protected function renderType(ElementInterface $element)
     {
-        foreach ($this->classMap as $class => $pluginName) {
-            if ($element instanceof $class) {
-                return $this->renderHelper($pluginName, $element);
-            }
+        $type = $element->getAttribute('type');
+
+        if (isset($this->typeMap[$type])) {
+            return $this->renderHelper($this->typeMap[$type], $element);
         }
         return null;
+    }
+
+    /**
+     * Render element by helper name
+     *
+     * @param string $name
+     * @param ElementInterface $element
+     * @return string
+     */
+    protected function renderHelper($name, ElementInterface $element)
+    {
+        $helper = $this->getView()->plugin($name);
+        return $helper($element);
     }
 }

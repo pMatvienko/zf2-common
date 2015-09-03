@@ -50,7 +50,8 @@ abstract class AbstractController extends BaseController
         /**
          * @var \System\Form\AclRole $form
          */
-        $form = $model->getForm($model->findById($this->params()->fromRoute('id')));
+        $entity = $model->findById($this->params()->fromRoute('id'));
+        $form = $model->getForm($entity);
         if($form->get(AbstractForm::FOOTER_NAME) != null) {
             $form->get(AbstractForm::FOOTER_NAME)->remove(AbstractForm::BTN_CONTINUE);
         }
@@ -63,7 +64,7 @@ abstract class AbstractController extends BaseController
             }
             $form->setData($post);
             if ($form->isValid()) {
-                $model->saveForm($form);
+                $model->saveForm($form, $entity);
                 $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
                 $this->flashMessenger()->addSuccessMessage('msg:record-saved');
                 return $this->getAfterActionRedirect();

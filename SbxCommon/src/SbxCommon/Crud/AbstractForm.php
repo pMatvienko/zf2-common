@@ -4,9 +4,10 @@ namespace SbxCommon\Crud;
 use SbxCommon\Form\FooterFieldset;
 use Zend\Form\Form as ZendForm;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-abstract class AbstractForm extends ZendForm
+abstract class AbstractForm extends ZendForm implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
     const BTN_SAVE = 'save';
@@ -58,7 +59,7 @@ abstract class AbstractForm extends ZendForm
                 'type' => 'Submit',
                 'attributes' => array(
                     'value' => 'action:cancel',
-                    'class' => 'btn btn-link'
+                    'class' => 'btn btn-warning'
                 ),
                 'options' => array(
                     'label' => 'action:cancel',
